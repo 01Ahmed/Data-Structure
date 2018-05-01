@@ -1,0 +1,306 @@
+\documentclass[11pt]{article}            % Report class in 11 points
+\parindent0pt  \parskip10pt             % make block paragraphs
+\usepackage{graphicx}
+\usepackage{listings}
+\graphicspath{ {images/} }
+\usepackage{graphicx} %  graphics header file
+\begin{document}
+\begin{titlepage}
+    \centering
+  \vfill
+    \includegraphics[width=8cm]{uni_logo.png} \\ 
+	\vskip2cm
+    {\bfseries\Large
+	Data Structure and Algorithms \\ 
+	
+	\vskip2cm
+	Lab Report 
+	 
+	\vskip2cm
+	}    
+
+\begin{center}
+\begin{tabular}{ l l  } 
+
+Name: & M Ahmed Akram \\ 
+Registration \#: & CSU-F16-111 \\ 
+Lab Report \#: & 05 \\ 
+ Dated:& 30-04-2018\\ 
+Submitted To:& Mr. Usman Ahmed\\ 
+
+ %\hline
+\end{tabular}
+\end{center}
+    \vfill
+    The University of Lahore, Islamabad Campus\\
+Department of Computer Science \& Information Technology
+\end{titlepage}
+
+
+    
+    {\bfseries\Large
+\centering
+	Experiment \# 5 \\
+
+Link list-Basic Deletion at desired position  \\
+	
+	}    
+ \vskip1cm
+ \textbf {Objective}\\ 
+The objective of this session is to insertion, traversal and deletion at desired position in link list
+using C++.\\
+
+\textbf {Software Tool} \\
+1.   Dev\ C++
+
+
+\section{Theory }        
+This section discusses how to insert an item into, and delete an item from, a linked list.
+Consider the following definition of a node. (For simplicity, we assume that the info type is int.\\
+struct nodeType\\
+\{\\
+int info nodeType* link;\\
+\};\\
+We will use the following variable nodeType\\
+\textbf{INSERTION:- }\\ 
+Algorithms which insert nodes into the linked list come up in various situations. We discuss
+three of them here. The first one inserts a node at the beginning of the list, the second one inserts
+a node after a node with a given location, and the third one inserts a node into the sorted list.\\
+\textbf{Inserting at the Beginning of the List:-}
+Suppose our linked list is not necessarily sorted and there is no reason to insert a new node
+in any special place in the list. Then the easiest place to insert the node is at the beginning of
+the list. An algorithm that does so follows.\\
+
+\textbf{Algorithm:- }\\
+INSFIRST(INFO,LINK,START,AVAIL,ITEM)\\
+This algorithm inserts ITEM as the first node in the list.\\
+1.[OVERFLOW?] If AVAIL=NULL then write OVERFLOW and Exit.\\
+2.[Remove first node from AVAIL list.] Set NEW=AVAIL
+and AVAIL=LINK[AVAIL]\\
+3.Set INFO[NEW]=ITEM [Copies new data into new node]\\
+4.Set LINK[NEW]=START [New node now points to the original first node]\\
+5.Set START=NEW [Change START so it points to the new node ]\\
+6.Exit.\\
+
+\textbf{Inserting after a Given Node:- Algorithm:-}\\
+INSLOC(INFO,;INK,START,AVAIL,LOC,ITEM)\\
+This algorithm inserts ITEM so that item follows the node with location LOC or
+inserts ITEM as a first node when LOC=NULL.\\
+1.[OVERFLOW?] If AVAIL=NULL then write OVERFLOW and Exit.\\
+2.[Remove First Node from the AVAIL list].\\
+Set NEW=AVAIL and AVAIL=LINK[AVAIL].\\
+3.Set INFO[NEW] =ITEM. [Copies new data into new node.]\\
+4.If LOC=NULL then [Inserts as first node] Set\\
+LINK[NEW]=START and START=NEW.\\
+else [Insert after node with location LOC]\\
+Set LINK[NEW]=LINK[LOC] and LINK[LOC]=NEW. [End of
+If Structure]\\
+5.Exit.\\
+
+\textbf{Inserting into a Sorted Linked List:-}\\
+Suppose ITEM is to be inserted into a sorted linked list. Then ITEM must be inserted
+between nodes A and B so that\\
+\begin{center}
+INFO(A) < ITEM < INFO(B)
+\end{center}
+The following is the procedure which finds the location LOC of node A that is which finds the
+location LOC of the last node in the list whose value is less than ITEM. Traverse the list using
+pointer variables PTR and comparing ITEM with INFO[PTR] at every node. While traversing
+keep track of the location of the preceding node by using a pointer variable SAVE. Thus SAVE
+and PTR are updated by assignments.\\
+
+\textbf{Algorithm:-}
+FINDA(INFO, LINK START, ITEM,LOC)\\
+This procedure finds the location LOC of the last node in a sorted list such that
+INFO[LOC] < ITEM or set LOC = NULL.\\
+1.[List Empty?] If START = NULL then set LOC= NULL and
+Return.\\
+2.[Special Case?] If ITEM<INFO[START] then Set LOC =NULL and
+Return.\\
+3.Set SAVE= START and PTR = LINK[START] [Initialize
+Pointers]\\
+4.Repeat Step 5 and 6 while PTR ≠ NULL.\\
+5. If ITEM<INFO[PTR] then
+Set LOC =SAVE and Return. [End of If
+Structure]\\
+6. Set SAVE =PTR and PTR= LINK[PTR] [Update Pointers]
+[End of Step 4 Loop]\\
+7.Set LOC=SAVE.\\
+8.Exit.\\
+Now we have all the components to present an algorithm which inserts ITEM into a
+linked list. The simplicity of the algorithm comes from using the previous two
+procedures.\\
+
+\textbf{Algorithm:-}
+INSERT(INFO, LINK , START, AVAIL, ITEM)\\
+This algorithm inserts ITEM into a sorted linked list.\\
+1.Call FINDA(INFO, LINK, START, AVAIL , ITEM)\\
+2.Call INSLOC(INFO, LINK, START, AVAIL, LOC, ITEM).\\
+3.Exit.\\
+Consider the linked list shown in Figure 1.\\
+\begin{center}
+\includegraphics[width=8cm]{1.png}\\
+\textbf{Figure : 1}
+\end{center}
+Suppose that p points to the node with info 65, and a new node with info 50 is to be created
+and inserted after p. Consider the following statements:\\
+newNode=new nodeType; //create new Node newNode-\\
+>info=50; //store 50 in the newnode newNode->link=p-\\
+>link;\\
+p->link=newNode;\\
+\begin{center}
+\textbf{Table 1 shows the effect of these statements.\\ Table 1: Inserting a node in a linked list}
+\includegraphics[width=8cm]{2.png}
+\end{center}
+
+Note that the sequence of statements to insert the node, that is,\\
+newNode->link = p->link;\\
+p->link = newNode;\\
+is very important because to insert newNode in the list we use only one pointer, p, to adjust
+the links of the nodes of the linked list. Suppose that we reverse the sequence of the
+statements and execute the statements in the following order:\\
+p->link = newNode;\\
+newNode->link = p->link;\\
+
+\begin{center}
+\includegraphics[width=8cm]{3.png}\\
+\textbf{Figure : 2}
+\end{center}
+Figure: List after the execution of the statement p->link = newNode;followed by the
+execution of the statement newNode->link = p->link;\\
+From Figure, it is clear that newNode points back to itself and the remainder of the list is lost.\\
+
+\section{Lab Task }  
+Write a C++ code using functions for the following operations.\\
+1.Creating a linked List.\\
+2.Traversing a Linked List.\\
+3.Inserting the node at the start of the list.\\
+4.Inserting a node after a given node.\\
+5.Inserting a node in a sorted list.\\
+Create a complete menu for the above options and also create option for reusing
+it.\\
+
+\subsection{Program:}     
+
+\begin{lstlisting}[language=c++]
+#include<iostream>
+using namespace std;
+struct node
+{
+    int number;
+    node *next;
+};
+
+struct Box
+{
+    void insertAsFirstElement(node *&head, node *&last,int number);
+    void insert(node *&head, node *&last,int number);
+    void remove(node *&head, node *&last);
+    void showList(node *current);
+};
+
+bool isEmpty(node *head) {
+    return head == NULL;
+}
+
+char menu() {
+    char choice;
+    cout<<"Menu"<<"1. Add an item.\n"<<"2. Remove an item.\n"<<"3. Show the list.\n"<<"Exit\n";
+    cin >> choice;
+    return choice;
+}
+
+void insertAsFirstElement(node *&head, node *&last,int number) {
+    node *temp = new node;
+    temp->number = number;
+    temp->next = NULL;
+    head = temp;
+    last = temp;
+}
+
+void insert(node *&head, node *&last,int number) {
+    if(isEmpty(head))
+      insertAsFirstElement(head, last, number);
+    else {
+        node *temp = new node;
+        temp->number = number;
+        temp->next = NULL;
+        last->next = temp;
+        last = temp;
+    }
+}
+
+void remove(node *&head, node *&last,int number) {
+    cin>>number;
+    node *temp = new node;
+    if(isEmpty(head))
+        cout<< "this list is already empty.\n";
+    else if (head == last) {
+        delete head;
+        head = NULL;
+        last = NULL;
+    } else {
+        for(int i = 0; 1< number-2; i++)
+            /*node *temp = head;
+            head = head->next;
+            delete temp;*/
+            node *temp = head;
+        head = head->next;
+        temp= temp->next;
+        node* temp2 = temp->next;
+        temp->next = temp2->next;
+        delete temp2;
+    }
+}
+
+void showList(node *current) {
+    if(isEmpty(current))
+        cout << "The list is empty\n";
+    else {
+        cout << "The list contains:\n";
+        while(current != NULL) {
+            cout << current->number << endl;
+            current = current->next;
+        }
+    }
+}
+
+int main() {
+    node *head = NULL;
+    node *last = NULL;
+    char choice;
+    int number;
+    do{
+        choice = menu();
+        switch (choice) {
+        case'1':
+            cout << "please enter a number: ";
+            cin >> number;
+            insert (head,last,number);
+            break;
+        case'2':
+            remove(head,last,number);
+            break;
+        case '3':
+            showList(head);
+            break;
+        default:
+            cout<< "System exit\n";
+        }
+    }while (choice !='4');
+    return 0;
+}
+
+\end{lstlisting}
+\begin{center}
+ \includegraphics[width=8cm]{4.png}\\
+\textbf{Output} 
+\end{center}
+
+
+\section{Conclusion}  
+Linked lists provide us the great feature of deleting a node. The process of deletion is also easy to implement. The basic structure is to declare a temporary pointer which points the node to be deleted. Then a little bit of working on links of nodes. 
+
+
+ 
+\end{document}                          % The required last line
