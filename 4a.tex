@@ -1,0 +1,268 @@
+\documentclass[11pt]{article}            % Report class in 11 points
+\parindent0pt  \parskip10pt             % make block paragraphs
+\usepackage{graphicx}
+\usepackage{listings}
+\graphicspath{ {images/} }
+\usepackage{graphicx} %  graphics header file
+\begin{document}
+\begin{titlepage}
+    \centering
+  \vfill
+    \includegraphics[width=8cm]{uni_logo.png} \\ 
+	\vskip2cm
+    {\bfseries\Large
+	Data Structure and Algorithms \\ 
+	
+	\vskip2cm
+	Lab Report 
+	 
+	\vskip2cm
+	}    
+
+\begin{center}
+\begin{tabular}{ l l  } 
+
+Name: & M Ahmed Akram \\ 
+Registration \#: & CSU-F16-111 \\ 
+Lab Report \#: & 04 \\ 
+ Dated:& 23-04-2018\\ 
+Submitted To:& Mr. Usman Ahmed\\ 
+
+ %\hline
+\end{tabular}
+\end{center}
+    \vfill
+    The University of Lahore, Islamabad Campus\\
+Department of Computer Science \& Information Technology
+\end{titlepage}
+
+
+    
+    {\bfseries\Large
+\centering
+	Experiment \# 4 \\
+
+Link-list Basic Insertion and Traversal   \\
+	
+	}    
+ \vskip1cm
+
+The objective of this session is to understand the various operations on linked list in C++.\\
+
+\textbf {Software Tool} \\
+1.   Dev\ C++
+
+
+\section{Theory }        
+\begin{center}
+ \includegraphics[width=8cm]{1.png}\\ 
+\textbf{Figure : 1}
+\vskip 0.5cm
+\end{center}
+  You have already seen how data is organized and processed sequentially using an array, called
+a sequential list. You have performed several operations on sequential lists, such as sorting,
+inserting, deleting, and searching. You also found that if data is not sorted, searching for an
+item in the list can be very time consuming, especially with large lists. Once the data is sorted,
+you can use a binary search and improve the search algorithm. However, in this case, insertion
+and deletion become time consuming, especially with large lists because these operations
+require data movement. Also, because the array size must be fixed during execution, new items
+can be added only if there is room. Thus, there are limitations when you organize data in an
+array.\\
+This session helps you to overcome some of these problems. Last session showed how memory
+(variables) can be dynamically allocated and deallocated using pointers. This session uses
+pointers to organize and process data in lists, called linked lists. Recall that when data is stored
+in an array, memory for the components of the array is contiguous—that is, the blocks are
+allocated one after the other. However, as we will see, the components (called nodes) of a linked
+list need not be contiguous.\\ \\
+\textbf{LINKED LIST:-  }\\ 
+A linked list is a collection of components, called nodes. Every node (except the last node)
+contains the address of the next node. Thus, every node in a linked list has two components:
+one to store the relevant information (that is, data) and one to store the address, called the link,
+of the next node in the list. The address of the first node in the list is stored in a separate location,
+called the head or first. Figure 1 is a pictorial representation of a node.  \\ 
+\begin{center}
+ \includegraphics[width=8cm]{2.png}\\ 
+\textbf{Figure : 2}
+\vskip 0.5cm
+\end{center}
+Linked list: A list of items, called nodes, in which the order of the nodes is determined by the
+address, called the link, stored in each node.\\
+The list in Figure 3 is an example of a linked
+list.\\
+\begin{center}
+ \includegraphics[width=8cm]{3.png}\\ 
+\textbf{Figure : 3}
+\vskip 0.5cm
+\end{center}
+The arrow in each node indicates that the address of the node to which it is pointing is stored
+in that node. The down arrow in the last node indicates that this link field is NULL.\\
+For a better understanding of this notation, suppose that the first node is at memory location
+1200, and the second node is at memory location 1575, see Figure
+4.\\
+\begin{center}
+ \includegraphics[width=8cm]{4.png}\\ 
+\textbf{Figure : 4}
+\vskip 0.5cm
+\end{center}
+The value of the head is 1200, the data part of the first node is 45, and the link component of
+the first node contains 1575, the address of the second node. We will use the arrow
+notation whenever we draw the figure of a linked list.\\
+For simplicity and for the ease of understanding and clarity, Figures 3 through 5 use decimal
+integers as the values of memory addresses. However, in computer memory the memory
+addresses are in binary.\\
+Because each node of a linked list has two components, we need to declare each node as a
+class or struct. The data type of each node depends on the specific application—that is, what
+kind of data is being processed. However, the link component of each node is a pointer. The
+data type of this pointer variable is the node type itself. For the previous linked list, the definition
+of the node is as follows. (Suppose that the data type is int.)
+
+struct nodeType\\
+\{\\ 
+int info;\\
+nodeType* link;\\
+\};\\
+The variable declaration is as follows:\\
+nodeType* head;
+
+\textbf{Linked Lists: Some Properties }\\
+To better understand the concept of a linked list and a node, some important properties of
+linked lists are described next. \\
+Consider the linked list in Figure 5.
+\begin{center}
+ \includegraphics[width=8cm]{5.png}\\ 
+\textbf{Figure : 5}
+\vskip 0.5cm
+\end{center}
+
+This linked list has four nodes. The address of the first node is stored in the pointer head. Each
+node has two components: info, to store the info, and link, to store the address of the next node.
+For simplicity, we assume that info is of type int. Suppose that the first node is at location 2000,
+the second node is at location 2800, the third node is at location 1500, and the fourth node is at
+location 3600. Table 1 shows the values of head and some other nodes in the list shown in Figure
+5.\\
+\begin{center}
+\textbf{Table 1: Values of head and some of the nodes of the linked list in Figure 5}\\
+ \includegraphics[width=8cm]{6.png}\\ 
+\textbf{Figure : 5}
+\vskip 0.5cm
+\end{center}
+
+Suppose that current is a pointer of the same type as the pointer head. Then the statement\\
+current = head;\\
+Copies the value of head into current. Now consider the following
+statement:\\
+current = current->link;\\
+This statement copies the value of current->link, which is 2800, into current. Therefore, after
+this statement executes, currentpoints to the second node in the list. (When working with
+linked lists, we typically use these types of statements to advance a pointer to the next node in
+the list.) See Figure 7.\\
+\begin{center}
+ \includegraphics[width=8cm]{7.png}\\ 
+\textbf{Figure : 7}
+\vskip 0.5cm
+\end{center}
+
+\begin{center}
+\textbf{Table 2 shows the values of current, head, and some other nodes in Figure 7.\\Table 2: Values of current, head, and some of the nodes of the linked list in Figure 7\\}
+ \includegraphics[width=8cm]{8.png}\\ 
+\textbf{Figure : 8}
+\vskip 0.5cm
+\end{center}
+
+\textbf{TRAVERSING A LINKED LIST:- }
+The basic operations of a linked list are as follows: Search the list to determine whether a
+particular item is in the list, insert an item in the list, and delete an item from the list. These
+operations require the list to be traversed. That is, given a pointer to the first node of the list,
+we must step through the nodes of the list.\\
+
+
+\textbf{Algorithm:- }\\
+(Traversing a Linked List) Let LIST be a linked list in memory. This algorithm traverses
+LIST applying an operation PROCESS to each element of LIST. The variable PTR points
+to the node currently being processed.\\
+1.Set PTR=START [Initialize pointer PTR]\\
+2.Repeat Step 3 and 4 while PTR ≠ NULL.\\
+3. Apply PROCESS TO INFO[PTR].\\
+4. Set PTR=LINK[PTR] [PTR now points to the next node] [End
+of Step 2 Loop]\\
+5.Exit.\\
+Suppose that the pointer head points to the first node in the list, and the link of the last node is
+NULL. We cannot use the pointer head to traverse the list because if we use the head to traverse
+the list, we would lose the nodes of the list. This problem occurs because the links are in
+only one direction. The pointer head contains the address of the first node, the first node
+contains the address of the second node, the second node contains the address of the third node,
+and so on. If we move head to the second node, the first node is lost (unless we save a pointer
+to this node). If we keep advancing head to the next node, we will lose all the nodes of the list
+(unless we save a pointer to each node before advancing head, which is impractical because it
+would require additional computer time and memory space to maintain the list).\\
+Therefore, we always want head to point to the first node. It now follows that we must traverse
+the list using another pointer of the same type. Suppose that current is a pointer of the same
+type as head. The following code traverses the list:\\
+current =head;\\
+while(current!=NULL)\\
+\{\\
+cout<<current->info<<"";\\
+current=current->link;\\
+\}
+
+\section{Lab Task }  
+Write a C++ code using functions for the following operations.\\
+1.Creating a linked List.\\
+2.Traversing a Linked List.\\
+Create a complete menu for the above options and also create option for reusing
+it.\\
+
+\subsection{Program:}     
+\begin{lstlisting}[language=c++]
+#include<iostream>
+using namespace std;
+struct Node {
+    int data;
+    Node* next;
+};
+Node *newNode(int data)
+{
+    Node *new_node = new Node;
+    new_node->data = data;
+    new_node->next = NULL;
+    return new_node;
+}
+Node* insertEnd(Node* head, int data)
+{
+    if (head == NULL) 
+         return newNode(data);
+    else
+        head->next = insertEnd(head->next, data);
+    return head;
+}
+ 
+void traverse(Node* head)
+{
+    if (head == NULL)
+       return;
+    cout << head->data << " ";
+ 
+    traverse(head->next);
+}
+int main()
+{
+    Node* head = NULL;
+    head = insertEnd(head, 6);
+    head = insertEnd(head, 8);
+    head = insertEnd(head, 10);
+    head = insertEnd(head, 12);
+    head = insertEnd(head, 14);
+    traverse(head);
+    return 0;
+}
+
+\end{lstlisting}
+
+
+
+\section{Conclusion}  
+A linked list is a data structure that can store an indefinite amount of items. These items are connected using pointers in a sequential manner. There are two types of linked list; singly-linked list.
+
+
+ 
+\end{document}                          % The required last line
